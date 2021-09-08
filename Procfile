@@ -1,1 +1,1 @@
-web: gunicorn similMercado.wsgi
+web: gunicorn similMercado.similMercado.wsgi
