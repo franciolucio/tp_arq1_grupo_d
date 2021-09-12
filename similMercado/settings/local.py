@@ -11,9 +11,9 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'localdb',
+        'NAME': 'similmercado',
         'USER': 'postgres',
-        'PASSWORD': '5847462',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': ''
     }
