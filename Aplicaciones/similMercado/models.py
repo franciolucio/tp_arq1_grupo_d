@@ -25,7 +25,7 @@ class Producto(models.Model):
     id_categoria = models.ForeignKey("Categoria", on_delete=models.RESTRICT, blank=True, null=True)
     activo = models.BooleanField()
 
-class Eventos(models.Model):
+class Evento(models.Model):
     id_usuario_comprador = models.ForeignKey("Usuario", on_delete=models.RESTRICT, blank=False)
     id_vendedor = models.ForeignKey("Vendedor", on_delete=models.RESTRICT, blank=False)
     id_producto = models.ForeignKey("Producto", on_delete=models.RESTRICT, blank=False)
