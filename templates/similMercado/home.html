@@ -1,14 +1,36 @@
 {% extends 'similMercado/index.html' %}
 
 {% block content %}
-    {% if usuarios %}
-        {% for usuario in usuarios %}
-                <h3>
-                    <font color="white">{{ usuario.nombre }}</font>
-                </h3>
-            <hr>
-        {% endfor %}
-    {% else %}
-        <h1><font color="white">No existen usuarios registrados!</font></h1>
-    {% endif %}
+    <div class="container">
+        <div class="border rounded p-4 m-4">
+             <p class="display-4 pl-4 ml-4">Tus productos</p>
+             <hr>
+             <table class="table">
+                 <thead>
+                     <tr>
+                         <th>Nombre</th>
+                         <th>Descripcion</th>
+                         <th>Stock</th>
+                         <th>Precio</th>
+                         <th>Vendedor</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     {% for producto in productos %}
+                     <tr>
+                         <td>{{producto.nombre}}</td>
+                         <td>{{producto.descripcion}}</td>
+                         <td>{{producto.stock}}</td>
+                         <td>{{producto.precio}}</td>
+                         <td>{{producto.id_vendedor.razon_social}}</td>
+                     </tr>
+     
+                     {% endfor %}
+                    
+                 </tbody>
+     
+             </table>
+            
+        </div>
+     </div>
 {% endblock %}
