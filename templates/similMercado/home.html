@@ -1,7 +1,7 @@
 {% extends 'similMercado/index.html' %}
 
 {% block content %}
-    {% if posts %}
+    {% if usuarios %}
         {% for usuario in usuarios %}
                 <h3>
                     <font color="white">{{ usuario.nombre }}</font>
@@ -11,5 +11,4 @@
     {% else %}
         <h1><font color="white">No existen usuarios registrados!</font></h1>
     {% endif %}
-{% endblock%}
-    
+{% endblock %}
