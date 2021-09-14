@@ -19,4 +19,3 @@ DATABASES = {
     }
 }
 
-STATICFILES_DIRS = ('admin', os.path.join(BASE_DIR, 'static', 'admin'))
