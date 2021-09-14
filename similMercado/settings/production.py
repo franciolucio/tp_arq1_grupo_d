@@ -1,5 +1,5 @@
 from .base import *
-
+import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -19,4 +19,4 @@ DATABASES = {
     }
 }
 
-STATICFILES_DIRS = (BASE_DIR,'static')
+STATICFILES_DIRS = ('admin', os.path.join(BASE_DIR, 'static', 'admin'))
