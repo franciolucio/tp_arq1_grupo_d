@@ -13,6 +13,7 @@
                          <th>Stock</th>
                          <th>Precio</th>
                          <th>Vendedor</th>
+                         <th>Categoria</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -23,6 +24,7 @@
                          <td>{{producto.stock}}</td>
                          <td>{{producto.precio}}</td>
                          <td>{{producto.id_vendedor.razon_social}}</td>
+                         <td>{{producto.id_categoria.nombre}}</td>
                      </tr>
      
                      {% endfor %}
