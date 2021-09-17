@@ -6,4 +6,4 @@ from Aplicaciones.similMercado.models import Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['nombre','apellido','email']
+        fields = ['id','nombre','apellido','email']
