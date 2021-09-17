@@ -9,6 +9,10 @@ from .models import Usuario
 from .serializers import UsuarioSerializer
 
 # Create your views here.
+
+def index(request):
+    return render(request,"similMercado/index.html")
+
 @csrf_exempt
 def usuarioApi(request, id=0):
     if request.method == 'GET':
