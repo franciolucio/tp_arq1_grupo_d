@@ -1,7 +1,6 @@
-from django.urls import path
-
+from django.conf.urls import url
 from Aplicaciones.similMercado import views
 
 urlpatterns = [
-    path('', views.home, name="Home"),
+    url(r'^usuarios$',views.usuarioApi)
 ]
