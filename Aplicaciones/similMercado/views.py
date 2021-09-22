@@ -1,40 +1,115 @@
-from django.views.decorators import csrf
-from Aplicaciones.similMercado.models import Usuario
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from django.http.response import JsonResponse
+from django.shortcuts import render
+from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Usuario,Producto,Categoria,Vendedor
+from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer
 
-from .models import Usuario
-from .serializers import UsuarioSerializer
 
 # Create your views here.
 
 def index(request):
     return render(request,"similMercado/index.html")
 
-@csrf_exempt
-def usuarioApi(request):
-    if request.method == 'GET':
-        usuarios = Usuario.objects.all()
-        usuarios_serializer = UsuarioSerializer(usuarios,many=True)
-        return JsonResponse(usuarios_serializer.data, safe=False)
-    elif request.method == 'POST':
-        usuario_data = JSONParser().parse(request)
-        usuarios_serializer = UsuarioSerializer(data=usuario_data)
-        if usuarios_serializer.is_valid():
-            usuarios_serializer.save()
-            return JsonResponse("Agregado correctamente",safe=False)
-        return JsonResponse("Fallo al crear usuario",safe=False)
-    elif request.method == 'PUT':
-        usuario_data = JSONParser().parse(request)
-        usuarios = Usuario.objects.get(id=usuario_data['id'])
-        usuarios_serializer = UsuarioSerializer(usuarios,data=usuario_data)
-        if usuarios_serializer.is_valid():
-            usuarios_serializer.save()
-            return JsonResponse("Actualizado correctamente",safe=False)
-        return JsonResponse("Fallo la actualizacion")
-    elif request.method == 'DELETE':
-        usuario = Usuario.objects.get(id=id)
-        usuario.delete()
-        return JsonResponse("Eliminado correctamente",safe=False)
+### USUARIOS ###
+@api_view(['GET'])
+def usuariosList(request):
+	usuarios = Usuario.objects.all().order_by('id')
+	serializer = UsuarioSerializer(usuarios,many=True)
+	return Response(serializer.data)
+
+@api_view(['GET'])
+def usuariosDetail(request, pk):
+	usuarios = Usuario.objects.get(id=pk)
+	serializer =  UsuarioSerializer(usuarios, many=False)
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def usuarioCreate(request):
+	serializer = UsuarioSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def usuarioUpdate(request, pk):
+	usuario = Usuario.objects.get(id=pk)
+	serializer = UsuarioSerializer(instance=usuario, data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['DELETE'])
+def usuarioDelete(request, pk):
+	usuario = Usuario.objects.get(id=pk)
+	usuario.delete()
+	return Response('Usuario Borrado Correctamente')
+
+### PRODUCTOS ###
+@api_view(['GET'])
+def productosList(request):
+	productos = Producto.objects.all().order_by('id')
+	serializer = ProductoSerializer(productos,many=True)
+	return Response(serializer.data)
+
+@api_view(['GET'])
+def productosDetail(request, pk):
+	productos = Producto.objects.get(id=pk)
+	serializer =  ProductoSerializer(productos, many=False)
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def productosCreate(request):
+	serializer = ProductoSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def productosUpdate(request, pk):
+	producto = Producto.objects.get(id=pk)
+	serializer = ProductoSerializer(instance=producto, data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['DELETE'])
+def productosDelete(request, pk):
+	producto = Producto.objects.get(id=pk)
+	producto.delete()
+	return Response('Producto Borrado Correctamente')
+
+### VENDEDORES ###
+@api_view(['GET'])
+def vendedoresList(request):
+	vendedores = Vendedor.objects.all().order_by('id')
+	serializer = VendedorSerializer(vendedores,many=True)
+	return Response(serializer.data)
+
+@api_view(['GET'])
+def vendedoresDetail(request, pk):
+	vendedores = Vendedor.objects.get(id=pk)
+	serializer =  VendedorSerializer(vendedores, many=False)
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def vendedoresCreate(request):
+	serializer = VendedorSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['POST'])
+def vendedoresUpdate(request, pk):
+	vendedor = Vendedor.objects.get(id=pk)
+	serializer = VendedorSerializer(instance=vendedor, data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+	return Response(serializer.data)
+
+@api_view(['DELETE'])
+def vendedoresDelete(request, pk):
+	vendedor = Vendedor.objects.get(id=pk)
+	vendedor.delete()
+	return Response('Vendedor Borrado Correctamente')
