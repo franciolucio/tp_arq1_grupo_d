@@ -1,21 +1,19 @@
 from django.urls import path
-from Aplicaciones.similMercado import views
+from .views import *
 
 urlpatterns = [
-	path('', views.index, name="api-overview"),
-	path('usuarios-get', views.usuariosList, name="usuario-list"),
-	path('usuarios-get/<str:pk>', views.usuariosDetail, name="usuario-detail"),
-    path('usuarios-post', views.usuarioCreate, name="usuario-create"),
-	path('usuarios-post/<str:pk>', views.usuarioUpdate, name="usuario-update"),
-	path('usuarios-delete/<str:pk>', views.usuarioDelete, name="usuario-delete"),
-	path('productos-get', views.productosList, name="productos-list"),
-	path('productos-get/<str:pk>', views.productosDetail, name="productos-detail"),
-    path('productos-post', views.productosCreate, name="productos-create"),
-	path('productos-post/<str:pk>', views.productosUpdate, name="productos-update"),
-	path('productos-delete/<str:pk>', views.productosDelete, name="productos-delete"),
-    path('vendedores-get', views.vendedoresList, name="vendedores-list"),
-	path('vendedores-get/<str:pk>', views.vendedoresDetail, name="vendedores-detail"),
-    path('vendedores-post', views.vendedoresCreate, name="vendedores-create"),
-	path('vendedores-post/<str:pk>', views.vendedoresUpdate, name="vendedores-update"),
-	path('vendedores-delete/<str:pk>', views.vendedoresDelete, name="vendedores-delete"),
+	path('', index),
+	path('usuarios', Usuarios_APIView.as_view()),
+	path('usuarios/<int:pk>', UsuariosDetails_APIView.as_view()),
+ 	path('vendedores', Vendedores_APIView.as_view()),
+  	path('vendedores/<int:pk>', VendedoresDetails_APIView.as_view()),
+	path('productos', Productos_APIView.as_view()),
+	path('productos/<int:pk>', ProductosDetails_APIView.as_view()),
+ 	path('productosConStock', ProductosConStock_APIView.as_view()),
+  	path('productosDelVendedor/<int:pk>', ProductosAsociadosAlCliente_APIView.as_view()),
+	path('categorias', Categorias_APIView.as_view()),
+	path('categorias/<int:pk>', CategoriasDetails_APIView.as_view()),
+ 	path('eventos', Eventos_APIView.as_view()),
+	path('eventos/<int:pk>', EventosDetails_APIView.as_view()),
+ 	path('productosUsuario/<int:pk>', ProductosUsuarios_APIView.as_view()),
 ]

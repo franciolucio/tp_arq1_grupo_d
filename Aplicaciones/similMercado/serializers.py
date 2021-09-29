@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Aplicaciones.similMercado.models import Usuario,Producto,Categoria,Vendedor
+from Aplicaciones.similMercado.models import Usuario,Producto,Categoria,Vendedor,Evento
 
 
 # Serializers define the API representation.
@@ -21,4 +21,9 @@ class VendedorSerializer(serializers.ModelSerializer):
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
+        fields ='__all__'
+        
+class EventoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evento
         fields ='__all__'
