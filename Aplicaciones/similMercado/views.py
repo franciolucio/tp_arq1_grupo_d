@@ -63,7 +63,7 @@ class ProductosUsuarios_APIView(APIView):
 		serializer = EventoSerializer(productos, many=True)
 		return Response(serializer.data)
 
-class ProductosAsociadosAlCliente_APIView(APIView):
+class ProductosAsociadosAlVendedor_APIView(APIView):
 	def get(self, request, pk, format=None):
 		productos = Producto.objects.filter(id_vendedor=pk)
 		serializer = ProductoSerializer(productos, many=True)
@@ -228,3 +228,21 @@ class EventosDetails_APIView(APIView):
 		evento = self.get_object(pk)
 		evento.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ProductosMayoresA_APIView(APIView):
+	def get(self, request, pk, format=None):
+		productos = Producto.objects.filter(precio__gte=pk)
+		serializer = ProductoSerializer(productos, many=True)
+		return Response(serializer.data)
+
+class ProductosMenoresA_APIView(APIView):
+	def get(self, request, pk, format=None):
+		productos = Producto.objects.filter(precio__lte=pk)
+		serializer = ProductoSerializer(productos, many=True)
+		return Response(serializer.data)
+
+class ProductosEntreRango_APIView(APIView):
+	def get(self, request, x1,x2, format=None):
+		productos = Producto.objects.filter(precio__gte=x1,precio__lte=x2)
+		serializer = ProductoSerializer(productos, many=True)
+		return Response(serializer.data)
