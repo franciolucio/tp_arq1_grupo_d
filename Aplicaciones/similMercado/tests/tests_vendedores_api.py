@@ -4,33 +4,32 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from Aplicaciones.similMercado.models import Usuario
+from Aplicaciones.similMercado.models import Vendedor
 import json
 
 # Create your tests here.
 
-class Usuarios_APITestCase(TestCase):
+class Vendedores_APITestCase(TestCase):
       
-    def test_get_Usuarios(self):
+    def test_get_Vendedores(self):
         client = APIClient()
         response = client.get(
-                '/usuarios', {}
+                '/vendedores', {}
         )
         self.assertEqual(response.status_code,status.HTTP_200_OK)
         
-    def test_get_specific_Usuario(self):
+    def test_get_specific_Vendedor(self):
         
         # Creamos un objeto en la base de datos para trabajar con datos
-        usuario = Usuario.objects.create(
-            nombre='Javier',
-            apellido='Pastore',
-            email='pastore@gmail.com.ar',
+        vendedor = Vendedor.objects.create(
+            razon_social='JUMBO',
+            email='jumbo@hotmail.com.ar',
             activo=True
         )
         
         client = APIClient()
         response = client.get(
-            f'/usuarios/{usuario.pk}', {},
+            f'/vendedores/{vendedor.pk}', {},
             format='json'
         )
         result = json.loads(response.content)
@@ -40,29 +39,26 @@ class Usuarios_APITestCase(TestCase):
             del result['id']
             
         self.assertEqual(result, {
-                                "nombre": "Javier",
-                                "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
+                                "razon_social": "JUMBO",
+                                "email": "jumbo@hotmail.com.ar",
                                 "activo": True
                             })
         
-    def test_post_Usuarios(self):
+    def test_post_Vendedores(self):
         client = APIClient()
         response = client.post(
-                '/usuarios', {
-                                "nombre": "Javier",
-                                "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
+                '/vendedores', {
+                                "razon_social": "JUMBO",
+                                "email": "jumbo@hotmail.com.ar",
                                 "activo": True
                             },
                 format='json'
         )
         result = json.loads(response.content)
-        usuarios = Usuario.objects.all()
+        vendedores = Vendedor.objects.all()
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
-        self.assertEqual(usuarios.count(), 1)
-        self.assertIn('nombre', result)
-        self.assertIn('apellido', result)
+        self.assertEqual(vendedores.count(), 1)
+        self.assertIn('razon_social', result)
         self.assertIn('email', result)
         self.assertIn('activo', result)
         
@@ -70,33 +66,30 @@ class Usuarios_APITestCase(TestCase):
             del result['id']
             
         self.assertEqual(result, {
-                                "nombre": "Javier",
-                                "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
+                                "razon_social": "JUMBO",
+                                "email": "jumbo@hotmail.com.ar",
                                 "activo": True
                             })
         
-    def test_put_Usuarios(self):
+    def test_put_Vendedores(self):
         
         # Creamos un objeto en la base de datos para trabajar con datos
-        usuario = Usuario.objects.create(
-            nombre='Javier',
-            apellido='Pastore',
-            email='pastore@gmail.com.ar',
+        vendedor = Vendedor.objects.create(
+            razon_social='JUMBO',
+            email='jumbo@hotmail.com.ar',
             activo=True
         )
         
-        test_usuario_update = {
-            'nombre': 'Javier',
-            'apellido': 'Pastore',
-            'email': 'pastore@hotmail.com',
-            'activo': True,
+        test_vendedor_update = {
+           "razon_social": "JUMBO",
+            "email": "jumbo@hotmail.com.ar",
+            "activo": True
         }
         
         client = APIClient()
         response = client.put(
-            f'/usuarios/{usuario.pk}',
-            test_usuario_update,
+            f'/vendedores/{vendedor.pk}',
+            test_vendedor_update,
             format='json'
         )
         
@@ -106,25 +99,24 @@ class Usuarios_APITestCase(TestCase):
         if 'id' in result:
             del result['id']
             
-        self.assertEqual(result, test_usuario_update)
+        self.assertEqual(result, test_vendedor_update)
     
-    def test_delete_Usuarios(self):
+    def test_delete_Vendedores(self):
         client = APIClient()
         
         # Creamos un objeto en la base de datos para trabajar con datos
-        usuario = Usuario.objects.create(
-            nombre='Javier',
-            apellido='Pastore',
-            email='pastore@gmail.com.ar',
+        vendedor = Vendedor.objects.create(
+            razon_social='JUMBO',
+            email='jumbo@hotmail.com.ar',
             activo=True
         )
 
         response = client.delete(
-            f'/usuarios/{usuario.pk}', 
+            f'/vendedores/{vendedor.pk}', 
             format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        edu_exists = Usuario.objects.filter(pk=usuario.pk)
+        edu_exists = Vendedor.objects.filter(pk=vendedor.pk)
         self.assertFalse(edu_exists)
