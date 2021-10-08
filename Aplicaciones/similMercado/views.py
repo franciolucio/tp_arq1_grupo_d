@@ -58,10 +58,25 @@ class ProductosConStock_APIView(APIView):
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
-class ProductosUsuarios_APIView(APIView):
+class ProductosCompradoPorUsuario_APIView(APIView):
 	def get(self, request, pk, format=None):
-		productos = Evento.objects.filter(id_usuario_comprador=pk)
-		serializer = EventoSerializer(productos, many=True)
+		id_productos = []
+		eventos = Evento.objects.filter(id_usuario_comprador=pk)
+		for e in eventos:
+			id_productos.append(e.id_producto.id)
+		productos = Producto.objects.filter(id__in=id_productos)
+		serializer = ProductoSerializer(productos, many=True)
+		return Response(serializer.data)
+
+class ProductosVendidosPorVendedor_APIView(APIView):
+	def get(self, request, pk, format=None):
+		id_productos = []
+		eventos = Evento.objects.all()
+		for e in eventos:
+			if e.id_producto.id_vendedor.id == pk:
+				id_productos.append(e.id_producto.id)	
+		productos = Producto.objects.filter(id__in=id_productos)
+		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
 class ProductosAsociadosAlVendedor_APIView(APIView):
