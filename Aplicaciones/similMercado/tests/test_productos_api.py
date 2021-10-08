@@ -275,7 +275,54 @@ class Productos_APITestCase(TestCase):
         
         client = APIClient()
         response = client.get(
-            f'/productosUsuario/{usuario.pk}', {},
+            f'/productosCompradosPorUsuario/{usuario.pk}', {},
+            format='json'
+        )
+        result = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(len(result),1)
+        
+    def test_get_ProductosVendidosPorVendedor(self):
+        
+        # Creamos un objeto en la base de datos para trabajar con datos
+        
+        usuario = Usuario.objects.create(
+            nombre='Javier',
+            apellido='Pastore',
+            email='pastore@gmail.com.ar',
+            activo=True
+        )
+        
+        vendedor = Vendedor.objects.create(
+            razon_social='JUMBO',
+            email='jumbo@hotmail.com.ar',
+            activo=True
+        )
+        
+        categoria = Categoria.objects.create(
+            nombre='Indumentaria'
+        )
+        
+        producto = Producto.objects.create(
+            nombre='Gorras',
+            descripcion = 'Para la cancha',
+            precio = 1000,
+            stock = 54,
+            nuevo = True,
+            activo = True,
+            id_vendedor = vendedor,
+            id_categoria = categoria,
+        )
+        
+        Evento.objects.create(
+            id_usuario_comprador = usuario,
+            id_producto = producto,
+            cantidad = 2
+        )
+        
+        client = APIClient()
+        response = client.get(
+            f'/productosVendidosPorVendedor/{vendedor.pk}', {},
             format='json'
         )
         result = json.loads(response.content)
