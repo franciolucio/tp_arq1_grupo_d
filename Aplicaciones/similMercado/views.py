@@ -3,6 +3,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 from .models import Usuario,Producto,Categoria,Vendedor,Evento
 from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer,EventoSerializer
 from rest_framework import status
@@ -53,7 +54,7 @@ class UsuariosDetails_APIView(APIView):
 
 class ProductosConStock_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		productos = Producto.objects.filter(stock__gte=0)
+		productos = Producto.objects.filter(stock__gt=0)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
@@ -199,10 +200,17 @@ class Eventos_APIView(APIView):
 
 	def post(self, request, format=None):
 		serializer = EventoSerializer(data=request.data)
-		if serializer.is_valid():
-			serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		producto = Producto.objects.get(pk=request.data['id_producto'])
+		
+		if producto.stock - request.data['cantidad'] < 0:
+			raise APIException("No puedes realizar esta comprar la cantidad seleccionada supera el stock")
+		else:
+			producto.stock = producto.stock - request.data['cantidad']
+			producto.save()
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EventosDetails_APIView(APIView):
 	def get_object(self, pk):
