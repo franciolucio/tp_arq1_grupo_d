@@ -74,7 +74,11 @@ class Eventos_APITestCase(TestCase):
         self.assertEqual(result, {
                                 "id_usuario_comprador": comprador.id,
                                 "id_producto": producto.id,
-                                "cantidad": 2
+                                "cantidad": 2,
+                                "tipoCategoria": "Indumentaria",
+                                "nombreVendedor": "JUMBO",
+                                "nombreComprador": "Javier",
+                                "apellidoComprador": "Pastore"
                             })
         
     def test_post_Eventos(self):
@@ -104,14 +108,18 @@ class Eventos_APITestCase(TestCase):
         self.assertEqual(result, {
                                 "id_usuario_comprador": comprador.id,
                                 "id_producto":  producto.id,
-                                "cantidad": 2
+                                "cantidad": 2,
+                                "tipoCategoria": "Indumentaria",
+                                "nombreVendedor": "JUMBO",
+                                "nombreComprador": "Javier",
+                                "apellidoComprador": "Pastore"
                             })
         
     def test_put_Eventos(self):
         
         # Creamos un objeto en la base de datos para trabajar con datos
-        comprador = Usuario.objects.all().first()
         producto = Producto.objects.all().first()
+        comprador = Usuario.objects.all().first()
         evento = Evento.objects.create(
             id_usuario_comprador = comprador,
             id_producto = producto,
@@ -121,13 +129,21 @@ class Eventos_APITestCase(TestCase):
         test_evento_update = {
             "id_usuario_comprador": comprador.id,
             "id_producto": producto.id,
-            "cantidad": 4
+            "cantidad": 6,
+            "tipoCategoria": "Indumentaria",
+            "nombreVendedor": "JUMBO",
+            "nombreComprador": "Javier",
+            "apellidoComprador": "Pastore"
         }
         
         client = APIClient()
         response = client.put(
             f'/eventos/{evento.pk}',
-            test_evento_update,
+            {
+                "id_usuario_comprador": comprador.id,
+                "id_producto": producto.id,
+                "cantidad": 6
+            },
             format='json'
         )
         
