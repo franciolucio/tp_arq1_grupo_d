@@ -8,11 +8,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields ='__all__'
 
-class ProductoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Producto
-        fields ='__all__'
-
 class VendedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendedor
@@ -23,7 +18,16 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
         fields ='__all__'
         
+class ProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields ='__all__'
+        
 class EventoSerializer(serializers.ModelSerializer):
+    tipoCategoria = serializers.CharField(source='id_producto.id_categoria.nombre',required=False)
+    nombreVendedor = serializers.CharField(source='id_producto.id_vendedor.razon_social',required=False)
+    nombreComprador = serializers.CharField(source='id_usuario_comprador.nombre',required=False)
+    apellidoComprador = serializers.CharField(source='id_usuario_comprador.apellido',required=False)
     class Meta:
         model = Evento
-        fields ='__all__'
+        fields = ['id','id_producto', 'id_usuario_comprador', 'tipoCategoria','nombreVendedor','cantidad','nombreComprador','apellidoComprador','fecha_de_compra']
