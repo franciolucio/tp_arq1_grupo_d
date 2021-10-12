@@ -19,9 +19,11 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields ='__all__'
         
 class ProductoSerializer(serializers.ModelSerializer):
+    tipoCategoria = serializers.CharField(source='id_categoria.nombre',required=False)
+    nombreVendedor = serializers.CharField(source='id_vendedor.razon_social',required=False)
     class Meta:
         model = Producto
-        fields ='__all__'
+        fields =['id','id_vendedor','id_categoria','nombre','descripcion','precio','stock','nuevo','tipoCategoria','nombreVendedor']
         
 class EventoSerializer(serializers.ModelSerializer):
     tipoCategoria = serializers.CharField(source='id_producto.id_categoria.nombre',required=False)

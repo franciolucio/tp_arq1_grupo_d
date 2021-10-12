@@ -24,8 +24,7 @@ class Usuarios_APITestCase(TestCase):
         usuario = Usuario.objects.create(
             nombre='Javier',
             apellido='Pastore',
-            email='pastore@gmail.com.ar',
-            activo=True
+            email='pastore@gmail.com.ar'
         )
         
         client = APIClient()
@@ -42,8 +41,7 @@ class Usuarios_APITestCase(TestCase):
         self.assertEqual(result, {
                                 "nombre": "Javier",
                                 "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
-                                "activo": True
+                                "email": "pastore@gmail.com.ar"
                             })
         
     def test_post_Usuarios(self):
@@ -52,8 +50,7 @@ class Usuarios_APITestCase(TestCase):
                 '/usuarios', {
                                 "nombre": "Javier",
                                 "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
-                                "activo": True
+                                "email": "pastore@gmail.com.ar"
                             },
                 format='json'
         )
@@ -64,7 +61,6 @@ class Usuarios_APITestCase(TestCase):
         self.assertIn('nombre', result)
         self.assertIn('apellido', result)
         self.assertIn('email', result)
-        self.assertIn('activo', result)
         
         if 'id' in result:
             del result['id']
@@ -72,8 +68,7 @@ class Usuarios_APITestCase(TestCase):
         self.assertEqual(result, {
                                 "nombre": "Javier",
                                 "apellido": "Pastore",
-                                "email": "pastore@gmail.com.ar",
-                                "activo": True
+                                "email": "pastore@gmail.com.ar"
                             })
         
     def test_put_Usuarios(self):
@@ -82,15 +77,13 @@ class Usuarios_APITestCase(TestCase):
         usuario = Usuario.objects.create(
             nombre='Javier',
             apellido='Pastore',
-            email='pastore@gmail.com.ar',
-            activo=True
+            email='pastore@gmail.com.ar'
         )
         
         test_usuario_update = {
             'nombre': 'Javier',
             'apellido': 'Pastore',
-            'email': 'pastore@hotmail.com',
-            'activo': True,
+            'email': 'pastore@hotmail.com'
         }
         
         client = APIClient()
@@ -115,8 +108,7 @@ class Usuarios_APITestCase(TestCase):
         usuario = Usuario.objects.create(
             nombre='Javier',
             apellido='Pastore',
-            email='pastore@gmail.com.ar',
-            activo=True
+            email='pastore@gmail.com.ar'
         )
 
         response = client.delete(
