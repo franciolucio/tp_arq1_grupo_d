@@ -15,8 +15,7 @@ class Eventos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -26,8 +25,7 @@ class Eventos_APITestCase(TestCase):
         Usuario.objects.create(
             nombre='Javier',
             apellido='Pastore',
-            email='pastore@gmail.com.ar',
-            activo=True
+            email='pastore@gmail.com.ar'
         )
         
         Producto.objects.create(
@@ -36,7 +34,6 @@ class Eventos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )

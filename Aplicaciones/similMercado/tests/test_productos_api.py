@@ -24,8 +24,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -38,7 +37,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -60,9 +58,10 @@ class Productos_APITestCase(TestCase):
                                 "precio": 1000,
                                 "stock": 54,
                                 "nuevo": True,
-                                "activo": True,
                                 "id_vendedor": vendedor.id,
-                                "id_categoria": categoria.id
+                                "id_categoria": categoria.id,
+                                "tipoCategoria": "Indumentaria",
+                                "nombreVendedor": "JUMBO"
                             })
         
     def test_get_ProductosConStock(self):
@@ -71,8 +70,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -85,7 +83,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -105,8 +102,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -119,7 +115,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -139,8 +134,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -153,7 +147,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -173,8 +166,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -187,7 +179,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -207,8 +198,7 @@ class Productos_APITestCase(TestCase):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -221,7 +211,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -243,13 +232,11 @@ class Productos_APITestCase(TestCase):
             nombre='Javier',
             apellido='Pastore',
             email='pastore@gmail.com.ar',
-            activo=True
         )
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -262,7 +249,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -289,14 +275,12 @@ class Productos_APITestCase(TestCase):
         usuario = Usuario.objects.create(
             nombre='Javier',
             apellido='Pastore',
-            email='pastore@gmail.com.ar',
-            activo=True
+            email='pastore@gmail.com.ar'
         )
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -309,7 +293,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -332,8 +315,7 @@ class Productos_APITestCase(TestCase):
     def test_post_Productos(self):
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -347,7 +329,6 @@ class Productos_APITestCase(TestCase):
                                 "precio": 1000,
                                 "stock": 54,
                                 "nuevo": True,
-                                "activo": True,
                                 "id_vendedor": vendedor.id,
                                 "id_categoria": categoria.id
                             },
@@ -362,7 +343,6 @@ class Productos_APITestCase(TestCase):
         self.assertIn('precio', result)
         self.assertIn('stock', result)
         self.assertIn('nuevo', result)
-        self.assertIn('activo', result)
         self.assertIn('id_vendedor', result)
         self.assertIn('id_categoria', result)
         
@@ -375,17 +355,17 @@ class Productos_APITestCase(TestCase):
                                 "precio": 1000,
                                 "stock": 54,
                                 "nuevo": True,
-                                "activo": True,
                                 "id_vendedor": vendedor.id,
-                                "id_categoria": categoria.id
+                                "id_categoria": categoria.id,
+                                "tipoCategoria": "Indumentaria",
+                                "nombreVendedor": "JUMBO"
                             })
         
     def test_put_Productos(self):
         
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -398,7 +378,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )
@@ -409,15 +388,24 @@ class Productos_APITestCase(TestCase):
             "precio": 1000,
             "stock": 54,
             "nuevo": True,
-            "activo": True,
             "id_vendedor": vendedor.id,
-            "id_categoria": categoria.id
+            "id_categoria": categoria.id,
+            "tipoCategoria": "Indumentaria",
+            "nombreVendedor": "JUMBO"
         }
         
         client = APIClient()
         response = client.put(
             f'/productos/{producto.pk}',
-            test_producto_update,
+            {
+            "nombre": "Gorras",
+            "descripcion": "Para la cancha y la playa",
+            "precio": 1000,
+            "stock": 54,
+            "nuevo": True,
+            "id_vendedor": vendedor.id,
+            "id_categoria": categoria.id
+            },
             format='json'
         )
         
@@ -435,8 +423,7 @@ class Productos_APITestCase(TestCase):
         # Creamos un objeto en la base de datos para trabajar con datos
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         categoria = Categoria.objects.create(
@@ -449,7 +436,6 @@ class Productos_APITestCase(TestCase):
             precio = 1000,
             stock = 54,
             nuevo = True,
-            activo = True,
             id_vendedor = vendedor,
             id_categoria = categoria,
         )

@@ -23,8 +23,7 @@ class Vendedores_APITestCase(TestCase):
         # Creamos un objeto en la base de datos para trabajar con datos
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         client = APIClient()
@@ -40,8 +39,7 @@ class Vendedores_APITestCase(TestCase):
             
         self.assertEqual(result, {
                                 "razon_social": "JUMBO",
-                                "email": "jumbo@hotmail.com.ar",
-                                "activo": True
+                                "email": "jumbo@hotmail.com.ar"
                             })
         
     def test_post_Vendedores(self):
@@ -49,8 +47,7 @@ class Vendedores_APITestCase(TestCase):
         response = client.post(
                 '/vendedores', {
                                 "razon_social": "JUMBO",
-                                "email": "jumbo@hotmail.com.ar",
-                                "activo": True
+                                "email": "jumbo@hotmail.com.ar"
                             },
                 format='json'
         )
@@ -60,15 +57,13 @@ class Vendedores_APITestCase(TestCase):
         self.assertEqual(vendedores.count(), 1)
         self.assertIn('razon_social', result)
         self.assertIn('email', result)
-        self.assertIn('activo', result)
         
         if 'id' in result:
             del result['id']
             
         self.assertEqual(result, {
                                 "razon_social": "JUMBO",
-                                "email": "jumbo@hotmail.com.ar",
-                                "activo": True
+                                "email": "jumbo@hotmail.com.ar"
                             })
         
     def test_put_Vendedores(self):
@@ -76,14 +71,12 @@ class Vendedores_APITestCase(TestCase):
         # Creamos un objeto en la base de datos para trabajar con datos
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
         
         test_vendedor_update = {
            "razon_social": "JUMBO",
-            "email": "jumbo@hotmail.com.ar",
-            "activo": True
+            "email": "jumbo@hotmail.com.ar"
         }
         
         client = APIClient()
@@ -107,8 +100,7 @@ class Vendedores_APITestCase(TestCase):
         # Creamos un objeto en la base de datos para trabajar con datos
         vendedor = Vendedor.objects.create(
             razon_social='JUMBO',
-            email='jumbo@hotmail.com.ar',
-            activo=True
+            email='jumbo@hotmail.com.ar'
         )
 
         response = client.delete(
