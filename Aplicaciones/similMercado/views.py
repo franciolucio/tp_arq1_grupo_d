@@ -216,10 +216,10 @@ class Eventos_APIView(APIView):
 		if producto.stock - request.data['cantidad'] < 0:
 			raise APIException("No puedes realizar esta comprar la cantidad seleccionada supera el stock")
 		else:
-			producto.stock = producto.stock - request.data['cantidad']
-			producto.save()
 			if serializer.is_valid():
 				serializer.save()
+				producto.stock = producto.stock - request.data['cantidad']
+				producto.save()
 				return Response(serializer.data, status=status.HTTP_201_CREATED)
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
