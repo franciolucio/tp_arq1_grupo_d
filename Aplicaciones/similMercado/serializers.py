@@ -39,4 +39,4 @@ class EventoSerializer(serializers.ModelSerializer):
         return '{} {}'.format(obj.id_usuario_comprador.nombre, obj.id_usuario_comprador.apellido) 
     class Meta:
         model = Evento
-        fields = ['id','id_producto', 'id_usuario_comprador', 'tipo_categoria','nombre_vendedor','cantidad','usuario_comprador','fecha_compra']
+        fields = ['id','id_producto', 'id_usuario_comprador', 'precio','nombre','descripcion','nuevo','tipo_categoria','nombre_vendedor','cantidad','usuario_comprador','fecha_compra']
