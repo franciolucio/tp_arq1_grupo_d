@@ -26,4 +26,4 @@ class Evento(models.Model):
     id_usuario_comprador = models.ForeignKey("Usuario", on_delete=models.RESTRICT, blank=False)
     id_producto = models.ForeignKey("Producto", on_delete=models.RESTRICT, blank=False)
     cantidad = models.IntegerField(default=1)
-    fecha_de_compra = models.DateTimeField(auto_now_add=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
