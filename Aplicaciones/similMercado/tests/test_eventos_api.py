@@ -72,10 +72,10 @@ class Eventos_APITestCase(TestCase):
                                 "id_usuario_comprador": comprador.id,
                                 "id_producto": producto.id,
                                 "cantidad": 2,
-                                "tipoCategoria": "Indumentaria",
-                                "nombreVendedor": "JUMBO",
-                                "nombreComprador": "Javier",
-                                "apellidoComprador": "Pastore"
+                                "tipo_categoria": "Indumentaria",
+                                "nombre_vendedor": "JUMBO",
+                                "nombre_comprador": "Javier",
+                                "apellido_comprador": "Pastore"
                             })
         
     def test_post_Eventos(self):
@@ -106,10 +106,10 @@ class Eventos_APITestCase(TestCase):
                                 "id_usuario_comprador": comprador.id,
                                 "id_producto":  producto.id,
                                 "cantidad": 2,
-                                "tipoCategoria": "Indumentaria",
-                                "nombreVendedor": "JUMBO",
-                                "nombreComprador": "Javier",
-                                "apellidoComprador": "Pastore"
+                                "tipo_categoria": "Indumentaria",
+                                "nombre_vendedor": "JUMBO",
+                                "nombre_comprador": "Javier",
+                                "apellido_comprador": "Pastore"
                             })
         
     def test_put_Eventos(self):
@@ -127,10 +127,10 @@ class Eventos_APITestCase(TestCase):
             "id_usuario_comprador": comprador.id,
             "id_producto": producto.id,
             "cantidad": 6,
-            "tipoCategoria": "Indumentaria",
-            "nombreVendedor": "JUMBO",
-            "nombreComprador": "Javier",
-            "apellidoComprador": "Pastore"
+            "tipo_categoria": "Indumentaria",
+            "nombre_vendedor": "JUMBO",
+            "nombre_comprador": "Javier",
+            "apellido_comprador": "Pastore"
         }
         
         client = APIClient()
