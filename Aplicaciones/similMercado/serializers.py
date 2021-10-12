@@ -28,8 +28,10 @@ class ProductoSerializer(serializers.ModelSerializer):
 class EventoSerializer(serializers.ModelSerializer):
     tipoCategoria = serializers.CharField(source='id_producto.id_categoria.nombre',required=False)
     nombreVendedor = serializers.CharField(source='id_producto.id_vendedor.razon_social',required=False)
-    nombreComprador = serializers.CharField(source='id_usuario_comprador.nombre',required=False)
-    apellidoComprador = serializers.CharField(source='id_usuario_comprador.apellido',required=False)
+    nombreCompletoComprador = serializers.SerializerMethodField(required=False)
+    fechaDeCompra = serializers.DateField(source='fecha_de_compra',format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'],required=False)
+    def get_nombreCompletoComprador(self, obj):
+        return '{} {}'.format(obj.id_usuario_comprador.nombre, obj.id_usuario_comprador.apellido) 
     class Meta:
         model = Evento
-        fields = ['id','id_producto', 'id_usuario_comprador', 'tipoCategoria','nombreVendedor','cantidad','nombreComprador','apellidoComprador','fecha_de_compra']
+        fields = ['id','id_producto', 'id_usuario_comprador', 'tipoCategoria','nombreVendedor','cantidad','nombreCompletoComprador','fechaDeCompra']
