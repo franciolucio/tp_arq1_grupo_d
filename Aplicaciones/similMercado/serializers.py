@@ -33,7 +33,7 @@ class EventoSerializer(serializers.ModelSerializer):
     nuevo = serializers.BooleanField(source='id_producto.nuevo',required=False)
     nombre_vendedor = serializers.CharField(source='id_producto.id_vendedor.razon_social',required=False)
     usuario_comprador = serializers.SerializerMethodField(required=False)
-    fecha_compra = serializers.DateTimeField(source='fecha_de_compra',format="%d-%m-%Y %H:%M", input_formats=['%d-%m-%Y %H:%M', 'iso-8601'],required=False)
+    fecha_compra = serializers.DateTimeField(source='created',format="%d-%m-%Y %H:%M", input_formats=['%d-%m-%Y %H:%M', 'iso-8601'],required=False)
     
     def get_usuario_comprador(self, obj):
         return '{} {}'.format(obj.id_usuario_comprador.nombre, obj.id_usuario_comprador.apellido) 
