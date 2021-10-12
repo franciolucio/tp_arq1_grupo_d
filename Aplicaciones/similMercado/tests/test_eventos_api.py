@@ -66,7 +66,7 @@ class Eventos_APITestCase(TestCase):
         
         if 'id' in result:
             del result['id']
-            del result['fecha_de_compra']
+            del result['fechaDeCompra']
             
         self.assertEqual(result, {
                                 "id_usuario_comprador": comprador.id,
@@ -74,8 +74,7 @@ class Eventos_APITestCase(TestCase):
                                 "cantidad": 2,
                                 "tipoCategoria": "Indumentaria",
                                 "nombreVendedor": "JUMBO",
-                                "nombreComprador": "Javier",
-                                "apellidoComprador": "Pastore"
+                                "nombreCompletoComprador": "Javier Pastore"
                             })
         
     def test_post_Eventos(self):
@@ -100,7 +99,7 @@ class Eventos_APITestCase(TestCase):
         
         if 'id' in result:
             del result['id']
-            del result['fecha_de_compra']
+            del result['fechaDeCompra']
             
         self.assertEqual(result, {
                                 "id_usuario_comprador": comprador.id,
@@ -108,8 +107,7 @@ class Eventos_APITestCase(TestCase):
                                 "cantidad": 2,
                                 "tipoCategoria": "Indumentaria",
                                 "nombreVendedor": "JUMBO",
-                                "nombreComprador": "Javier",
-                                "apellidoComprador": "Pastore"
+                                "nombreCompletoComprador": "Javier Pastore"
                             })
         
     def test_put_Eventos(self):
@@ -129,8 +127,7 @@ class Eventos_APITestCase(TestCase):
             "cantidad": 6,
             "tipoCategoria": "Indumentaria",
             "nombreVendedor": "JUMBO",
-            "nombreComprador": "Javier",
-            "apellidoComprador": "Pastore"
+            "nombreCompletoComprador": "Javier Pastore"
         }
         
         client = APIClient()
@@ -149,7 +146,7 @@ class Eventos_APITestCase(TestCase):
         
         if 'id' in result:
             del result['id']
-            del result['fecha_de_compra']
+            del result['fechaDeCompra']
             
         self.assertEqual(result, test_evento_update)
     

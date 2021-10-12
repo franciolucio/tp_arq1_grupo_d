@@ -60,8 +60,8 @@ class Productos_APITestCase(TestCase):
                                 "nuevo": True,
                                 "id_vendedor": vendedor.id,
                                 "id_categoria": categoria.id,
-                                "tipoCategoria": "Indumentaria",
-                                "nombreVendedor": "JUMBO"
+                                "tipo_categoria": "Indumentaria",
+                                "nombre_vendedor": "JUMBO"
                             })
         
     def test_get_ProductosConStock(self):
@@ -357,8 +357,8 @@ class Productos_APITestCase(TestCase):
                                 "nuevo": True,
                                 "id_vendedor": vendedor.id,
                                 "id_categoria": categoria.id,
-                                "tipoCategoria": "Indumentaria",
-                                "nombreVendedor": "JUMBO"
+                                "tipo_categoria": "Indumentaria",
+                                "nombre_vendedor": "JUMBO"
                             })
         
     def test_put_Productos(self):
@@ -390,8 +390,8 @@ class Productos_APITestCase(TestCase):
             "nuevo": True,
             "id_vendedor": vendedor.id,
             "id_categoria": categoria.id,
-            "tipoCategoria": "Indumentaria",
-            "nombreVendedor": "JUMBO"
+            "tipo_categoria": "Indumentaria",
+            "nombre_vendedor": "JUMBO"
         }
         
         client = APIClient()
