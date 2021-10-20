@@ -5,10 +5,12 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     email = models.EmailField()
+    activo = models.BooleanField(default=True)
 
 class Vendedor(models.Model):
     razon_social = models.CharField(max_length=30)
     email = models.EmailField()
+    activo = models.BooleanField(default=True)
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
@@ -21,6 +23,7 @@ class Producto(models.Model):
     id_vendedor = models.ForeignKey("Vendedor", on_delete=models.CASCADE, blank=False)
     nuevo = models.BooleanField()
     id_categoria = models.ForeignKey("Categoria", on_delete=models.RESTRICT, blank=True, null=True)
+    activo = models.BooleanField(default=True)
 
 class Evento(models.Model):
     id_usuario_comprador = models.ForeignKey("Usuario", on_delete=models.RESTRICT, blank=False)

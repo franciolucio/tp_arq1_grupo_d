@@ -6,12 +6,12 @@ from Aplicaciones.similMercado.models import Usuario,Producto,Categoria,Vendedor
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields ='__all__'
+        fields = ['id','nombre','apellido','email']
 
 class VendedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendedor
-        fields ='__all__'
+        fields =  ['id','razon_social','email']
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:

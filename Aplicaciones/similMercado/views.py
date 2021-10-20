@@ -16,7 +16,7 @@ def index(request):
 
 class Usuarios_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		usuarios = Usuario.objects.all()
+		usuarios = Usuario.objects.filter(activo=True)
 		serializer = UsuarioSerializer(usuarios, many=True)
 		return Response(serializer.data)
 
@@ -48,13 +48,19 @@ class UsuariosDetails_APIView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk, format=None):
+		tieneEventos = Evento.objects.filter(id_usuario_comprador=pk).count() > 0
 		usuario = self.get_object(pk)
-		usuario.delete()
-		return Response(status=status.HTTP_204_NO_CONTENT)
+		if tieneEventos:
+			usuario.activo = False
+			usuario.save()
+			return Response(status=status.HTTP_200_OK)
+		else:
+			usuario.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ProductosConStock_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		productos = Producto.objects.filter(stock__gt=0)
+		productos = Producto.objects.filter(stock__gt=0, activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
@@ -83,7 +89,7 @@ class ProductosAsociadosAlVendedor_APIView(APIView):
 
 class Productos_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		productos = Producto.objects.all()
+		productos = Producto.objects.filter(activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
@@ -115,13 +121,19 @@ class ProductosDetails_APIView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk, format=None):
+		tieneEventos = Evento.objects.filter(id_producto=pk).count() > 0
 		producto = self.get_object(pk)
-		producto.delete()
-		return Response(status=status.HTTP_204_NO_CONTENT)
+		if tieneEventos:
+			producto.activo = False
+			producto.save()
+			return Response(status=status.HTTP_200_OK)
+		else:
+			producto.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Vendedores_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		vendedores = Vendedor.objects.all()
+		vendedores = Vendedor.objects.filter(activo=True)
 		serializer = VendedorSerializer(vendedores, many=True)
 		return Response(serializer.data)
 
@@ -160,9 +172,20 @@ class VendedoresDetails_APIView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk, format=None):
+		eventos = Evento.objects.all()
+		tieneEventos = False	
+		for e in eventos:
+			if e.id_producto.id_vendedor.id == pk:
+				tieneEventos = True	
 		vendedor = self.get_object(pk)
-		vendedor.delete()
-		return Response(status=status.HTTP_204_NO_CONTENT)
+		if tieneEventos:
+			vendedor.activo = False
+			vendedor.save()
+			return Response(status=status.HTTP_200_OK)
+		else:
+			vendedor.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		
 
 class Categorias_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
