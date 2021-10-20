@@ -14,6 +14,7 @@ class Eventos_APITestCase(TestCase):
     def setUp(self):
         
         vendedor = Vendedor.objects.create(
+            activo = True,
             razon_social='JUMBO',
             email='jumbo@hotmail.com.ar'
         )
@@ -23,12 +24,14 @@ class Eventos_APITestCase(TestCase):
         )
         
         Usuario.objects.create(
+            activo = True,
             nombre='Javier',
             apellido='Pastore',
             email='pastore@gmail.com.ar'
         )
         
         Producto.objects.create(
+            activo = True,
             nombre='Gorras',
             descripcion = 'Para la cancha',
             precio = 1000,
@@ -74,7 +77,11 @@ class Eventos_APITestCase(TestCase):
                                 "cantidad": 2,
                                 "tipo_categoria": "Indumentaria",
                                 "nombre_vendedor": "JUMBO",
-                                "usuario_comprador": "Javier Pastore"
+                                "usuario_comprador": "Javier Pastore",
+                                "precio" : 1000,
+                                "nombre" : "Gorras",
+                                "descripcion" : "Para la cancha",
+                                "nuevo" : True
                             })
         
     def test_post_Eventos(self):
@@ -107,7 +114,11 @@ class Eventos_APITestCase(TestCase):
                                 "cantidad": 2,
                                 "tipo_categoria": "Indumentaria",
                                 "nombre_vendedor": "JUMBO",
-                                "usuario_comprador": "Javier Pastore"
+                                "usuario_comprador": "Javier Pastore",
+                                "precio" : 1000,
+                                "nombre" : "Gorras",
+                                "descripcion" : "Para la cancha",
+                                "nuevo" : True
                             })
         
     def test_put_Eventos(self):
@@ -127,7 +138,11 @@ class Eventos_APITestCase(TestCase):
             "cantidad": 6,
             "tipo_categoria": "Indumentaria",
             "nombre_vendedor": "JUMBO",
-            "usuario_comprador": "Javier Pastore"
+            "usuario_comprador": "Javier Pastore",
+            "precio" : 1000,
+            "nombre" : "Gorras",
+            "descripcion" : "Para la cancha",
+            "nuevo" : True
         }
         
         client = APIClient()
