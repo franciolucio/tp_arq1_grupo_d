@@ -83,7 +83,7 @@ class ProductosVendidosPorVendedor_APIView(APIView):
 
 class ProductosAsociadosAlVendedor_APIView(APIView):
 	def get(self, request, pk, format=None):
-		productos = Producto.objects.filter(id_vendedor=pk)
+		productos = Producto.objects.filter(id_vendedor=pk,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
@@ -199,7 +199,7 @@ class VendedoresDetails_APIView(APIView):
 
 class Categorias_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
-		categorias = Categoria.objects.all()
+		categorias = Categoria.objects.filter(activo=True)
 		serializer = CategoriaSerializer(categorias, many=True)
 		return Response(serializer.data)
 
@@ -231,10 +231,19 @@ class CategoriasDetails_APIView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk, format=None):
-		categoria = self.get_object(pk)
-		categoria.delete()
-		return Response(status=status.HTTP_204_NO_CONTENT)
-
+		productos = Producto.objects.all()
+		tieneProductosAsociados = False	
+		for p in productos:
+			if p.id_categoria.id == pk:
+				tieneProductosAsociados = True	
+		catgoria = self.get_object(pk)
+		if tieneProductosAsociados:
+			catgoria.activo = False
+			catgoria.save()
+			return Response(status=status.HTTP_200_OK)
+		else:
+			catgoria.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Eventos_APIView(APIView):
 	def get(self, request, format=None, *args, **kwargs):
@@ -283,18 +292,18 @@ class EventosDetails_APIView(APIView):
 
 class ProductosMayoresA_APIView(APIView):
 	def get(self, request, pk, format=None):
-		productos = Producto.objects.filter(precio__gte=pk)
+		productos = Producto.objects.filter(precio__gte=pk,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
 class ProductosMenoresA_APIView(APIView):
 	def get(self, request, pk, format=None):
-		productos = Producto.objects.filter(precio__lte=pk)
+		productos = Producto.objects.filter(precio__lte=pk,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
 
 class ProductosEntreRango_APIView(APIView):
 	def get(self, request, x1,x2, format=None):
-		productos = Producto.objects.filter(precio__gte=x1,precio__lte=x2)
+		productos = Producto.objects.filter(precio__gte=x1,precio__lte=x2,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)

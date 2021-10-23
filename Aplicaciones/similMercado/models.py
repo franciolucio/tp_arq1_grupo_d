@@ -14,6 +14,7 @@ class Vendedor(models.Model):
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
+    activo = models.BooleanField(default=True)
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=30)
