@@ -11,10 +11,10 @@ ALLOWED_HOSTS = ['similmercado.herokuapp.com']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd57cd1ppkmeajf',
-        'USER': 'uhtzfrllujjcug',
-        'PASSWORD' : '31dfd15c78d58a7a1c119e51d98308ed7e08ef7c6340344bd09f30baaff0f0ca',
-        'HOST': 'ec2-34-202-54-225.compute-1.amazonaws.com',
+        'NAME': 'd54i5id0v8hqg6',
+        'USER': 'wwtgkbikejnkep',
+        'PASSWORD' : '125ef197eb9ffa8838ea92625d88256d3cc19aecda2f34bfd4524a9fac93fbbd',
+        'HOST': 'ec2-34-236-88-129.compute-1.amazonaws.com',
         'PORT': 5432
     }
 }
