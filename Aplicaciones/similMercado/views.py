@@ -5,10 +5,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from .models import Usuario,Producto,Categoria,Vendedor,Evento
-from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer,EventoSerializer
+from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer,EventoSerializer,CargaMasivaSerializer
 from rest_framework import status
 from django.http import Http404
 from django.shortcuts import render
+import csv
+import base64
+import io
 
 
 def index(request):
@@ -307,3 +310,38 @@ class ProductosEntreRango_APIView(APIView):
 		productos = Producto.objects.filter(precio__gte=x1,precio__lte=x2,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
+
+class ProductosCargaMasiva_APIView(APIView):
+	def post(self, request, format=None):
+		serializer = CargaMasivaSerializer(data=request.data)
+		if serializer.is_valid():
+			archivo = base64.b64decode(serializer.data['archivo']).decode('utf-8')
+			with io.StringIO(archivo) as f:
+				reader = csv.reader(f)
+				for i, row in enumerate(reader):
+					if i == 0:
+						pass
+					else:
+						row = "".join(row)
+						row = row.split(';')
+						try:
+							id_cat = self.get_categorias(row[1].upper())
+							Producto.objects.create(
+								nombre = row[0],
+								id_categoria = Categoria.objects.get(pk=id_cat),
+								descripcion = row[2],
+								precio = row[3],
+								stock = row[4],
+								nuevo = row[5].upper() == 'SI' if True else False,
+								id_vendedor = Vendedor.objects.get(pk=serializer.data['id_vendedor'])
+							)
+						except:
+							pass
+			return Response(serializer.data)
+
+	def get_categorias(self,categoria):
+		categorias = Categoria.objects.filter(activo=True)
+		for cat in categorias:
+			if cat.nombre.upper() == categoria:
+				return cat.id
+		raise APIException("No existe la categoria a cargar")

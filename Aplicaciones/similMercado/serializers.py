@@ -40,3 +40,7 @@ class EventoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = ['id','id_producto', 'id_usuario_comprador', 'precio','nombre','descripcion','nuevo','tipo_categoria','nombre_vendedor','cantidad','usuario_comprador','fecha_compra']
+
+class CargaMasivaSerializer(serializers.Serializer):
+    archivo = serializers.CharField()
+    id_vendedor = serializers.IntegerField()
