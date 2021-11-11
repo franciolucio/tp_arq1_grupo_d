@@ -325,23 +325,45 @@ class ProductosCargaMasiva_APIView(APIView):
 						row = "".join(row)
 						row = row.split(';')
 						try:
-							id_cat = self.get_categorias(row[1].upper())
+							id_cat = self.get_categoria(row[1].upper())
 							Producto.objects.create(
 								nombre = row[0],
 								id_categoria = Categoria.objects.get(pk=id_cat),
 								descripcion = row[2],
-								precio = row[3],
-								stock = row[4],
-								nuevo = row[5].upper() == 'SI' if True else False,
+								precio = self.validate_precio(row[3]),
+								stock = self.validate_stock(row[4]),
+								nuevo = self.validate_nuevo(row[5]),
 								id_vendedor = Vendedor.objects.get(pk=serializer.data['id_vendedor'])
 							)
-						except:
+							row[6] = 'SUCCESS'
+							csv.writer(f).writerow(row)
+						except Exception as e:
+							csv.writer(f).writerow(row)
 							pass
-			return Response(serializer.data)
+						print(row)
+				return Response(base64.b64encode(f.getvalue().encode()))
 
-	def get_categorias(self,categoria):
+	def get_categoria(self,categoria):
 		categorias = Categoria.objects.filter(activo=True)
 		for cat in categorias:
 			if cat.nombre.upper() == categoria:
 				return cat.id
-		raise APIException("No existe la categoria a cargar")
+		raise Exception("No existe la categoria a cargar")
+
+	def validate_precio(self,precio):
+		if isinstance(precio, int):
+				return precio
+		else:
+			raise Exception("El precio debe ser un numero")
+
+	def validate_stock(self,stock):
+		if isinstance(stock, int):
+				return stock
+		else:
+			raise Exception("El stock debe ser un numero")
+
+	def validate_nuevo(self,nuevo):
+		if nuevo.upper() == 'SI' or nuevo.upper() == 'NO':
+				return	nuevo.upper() == 'SI' if True else False
+		else:
+			raise Exception("La columna nuevo debe ser SI o NO")
