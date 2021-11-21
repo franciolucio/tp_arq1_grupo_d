@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from .models import Usuario,Producto,Categoria,Vendedor,Evento
-from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer,EventoSerializer,CargaMasivaSerializer
+from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer,CategoriaSerializer,EventoSerializer
 from rest_framework import status
 from django.http import Http404
 from django.shortcuts import render
@@ -312,36 +312,26 @@ class ProductosEntreRango_APIView(APIView):
 		return Response(serializer.data)
 
 class ProductosCargaMasiva_APIView(APIView):
-	def post(self, request, format=None):
-		serializer = CargaMasivaSerializer(data=request.data)
-		if serializer.is_valid():
-			archivo = base64.b64decode(serializer.data['archivo']).decode('utf-8')
-			with io.StringIO(archivo) as f:
-				reader = csv.reader(f)
-				for i, row in enumerate(reader):
-					if i == 0:
-						pass
-					else:
-						row = "".join(row)
-						row = row.split(';')
-						try:
-							id_cat = self.get_categoria(row[1].upper())
-							Producto.objects.create(
-								nombre = row[0],
-								id_categoria = Categoria.objects.get(pk=id_cat),
-								descripcion = row[2],
-								precio = self.validate_precio(row[3]),
-								stock = self.validate_stock(row[4]),
-								nuevo = self.validate_nuevo(row[5]),
-								id_vendedor = Vendedor.objects.get(pk=serializer.data['id_vendedor'])
-							)
-							row[6] = 'SUCCESS'
-							csv.writer(f).writerow(row)
-						except Exception as e:
-							csv.writer(f).writerow(row)
-							pass
-						print(row)
-				return Response(base64.b64encode(f.getvalue().encode()))
+	def post(self, request, pk, format=None):
+		archivo = request.data['data']
+		print(archivo)
+		for row in archivo:
+			try:
+				id_cat = self.get_categoria(row[1].upper())
+				Producto.objects.create(
+					nombre = row[0],
+					id_categoria = Categoria.objects.get(pk=id_cat),
+					descripcion = row[2],
+					precio = self.validate_precio(int(row[3])),
+					stock = self.validate_stock(int(row[4])),
+					nuevo = self.validate_nuevo(row[5]),
+					id_vendedor = Vendedor.objects.get(pk=int(pk))
+				)
+				row.append('SUCCESS')
+			except Exception as e:
+				row.append('ERROR: ' + str(e))
+		print(archivo)
+		return Response(archivo)
 
 	def get_categoria(self,categoria):
 		categorias = Categoria.objects.filter(activo=True)
