@@ -9,9 +9,6 @@ from .serializers import UsuarioSerializer,ProductoSerializer,VendedorSerializer
 from rest_framework import status
 from django.http import Http404
 from django.shortcuts import render
-import csv
-import base64
-import io
 
 
 def index(request):
@@ -314,23 +311,21 @@ class ProductosEntreRango_APIView(APIView):
 class ProductosCargaMasiva_APIView(APIView):
 	def post(self, request, pk, format=None):
 		archivo = request.data['data']
-		print(archivo)
 		for row in archivo:
 			try:
 				id_cat = self.get_categoria(row[1].upper())
 				Producto.objects.create(
-					nombre = row[0],
+					nombre = self.validate_nombre(row[0]),
 					id_categoria = Categoria.objects.get(pk=id_cat),
-					descripcion = row[2],
-					precio = self.validate_precio(int(row[3])),
-					stock = self.validate_stock(int(row[4])),
+					descripcion = self.validate_descripcion(row[2]),
+					precio = self.validate_precio(row[3]),
+					stock = self.validate_stock(row[4]),
 					nuevo = self.validate_nuevo(row[5]),
 					id_vendedor = Vendedor.objects.get(pk=int(pk))
 				)
-				row.append('SUCCESS')
+				row.append('OK')
 			except Exception as e:
 				row.append('ERROR: ' + str(e))
-		print(archivo)
 		return Response(archivo)
 
 	def get_categoria(self,categoria):
@@ -341,19 +336,33 @@ class ProductosCargaMasiva_APIView(APIView):
 		raise Exception("No existe la categoria a cargar")
 
 	def validate_precio(self,precio):
-		if isinstance(precio, int):
-				return precio
-		else:
+		try:
+			precioAux = int(precio)
+		except Exception as e:
 			raise Exception("El precio debe ser un numero")
+		return precioAux
 
 	def validate_stock(self,stock):
-		if isinstance(stock, int):
-				return stock
-		else:
+		try:
+			stockAux = int(stock)
+		except Exception as e:
 			raise Exception("El stock debe ser un numero")
+		return stockAux
 
 	def validate_nuevo(self,nuevo):
 		if nuevo.upper() == 'SI' or nuevo.upper() == 'NO':
 				return	nuevo.upper() == 'SI' if True else False
 		else:
 			raise Exception("La columna nuevo debe ser SI o NO")
+
+	def validate_nombre(self,nombre):
+		if not nombre:
+			raise Exception("El nombre no puede estar vacío")
+		else:
+			return nombre
+
+	def validate_descripcion(self,descripcion):
+		if not descripcion:
+			return " "
+		else:
+			return descripcion
