@@ -307,3 +307,62 @@ class ProductosEntreRango_APIView(APIView):
 		productos = Producto.objects.filter(precio__gte=x1,precio__lte=x2,activo=True)
 		serializer = ProductoSerializer(productos, many=True)
 		return Response(serializer.data)
+
+class ProductosCargaMasiva_APIView(APIView):
+	def post(self, request, pk, format=None):
+		archivo = request.data['data']
+		for row in archivo:
+			try:
+				id_cat = self.get_categoria(row[1].upper())
+				Producto.objects.create(
+					nombre = self.validate_nombre(row[0]),
+					id_categoria = Categoria.objects.get(pk=id_cat),
+					descripcion = self.validate_descripcion(row[2]),
+					precio = self.validate_precio(row[3]),
+					stock = self.validate_stock(row[4]),
+					nuevo = self.validate_nuevo(row[5]),
+					id_vendedor = Vendedor.objects.get(pk=int(pk))
+				)
+				row.append('OK')
+			except Exception as e:
+				row.append('ERROR: ' + str(e))
+		return Response(archivo)
+
+	def get_categoria(self,categoria):
+		categorias = Categoria.objects.filter(activo=True)
+		for cat in categorias:
+			if cat.nombre.upper() == categoria:
+				return cat.id
+		raise Exception("No existe la categoria a cargar")
+
+	def validate_precio(self,precio):
+		try:
+			precioAux = int(precio)
+		except Exception as e:
+			raise Exception("El precio debe ser un numero")
+		return precioAux
+
+	def validate_stock(self,stock):
+		try:
+			stockAux = int(stock)
+		except Exception as e:
+			raise Exception("El stock debe ser un numero")
+		return stockAux
+
+	def validate_nuevo(self,nuevo):
+		if nuevo.upper() == 'SI' or nuevo.upper() == 'NO':
+				return	nuevo.upper() == 'SI' if True else False
+		else:
+			raise Exception("La columna nuevo debe ser SI o NO")
+
+	def validate_nombre(self,nombre):
+		if not nombre:
+			raise Exception("El nombre no puede estar vacío")
+		else:
+			return nombre
+
+	def validate_descripcion(self,descripcion):
+		if not descripcion:
+			return " "
+		else:
+			return descripcion

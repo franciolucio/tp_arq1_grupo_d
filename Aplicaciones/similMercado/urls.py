@@ -20,4 +20,5 @@ urlpatterns = [
   	path('productosMayorA/<int:pk>', ProductosMayoresA_APIView.as_view()),
    	path('productosMenorA/<int:pk>', ProductosMenoresA_APIView.as_view()),
     path('productosEntre/<int:x1>/<int:x2>', ProductosEntreRango_APIView.as_view()),
+    path('cargarProductos/<int:pk>', ProductosCargaMasiva_APIView.as_view()),
 ]
