@@ -338,15 +338,19 @@ class ProductosCargaMasiva_APIView(APIView):
 	def validate_precio(self,precio):
 		try:
 			precioAux = int(precio)
+			if precioAux < 1:
+				raise Exception("El precio debe ser un numero positivo")
 		except Exception as e:
-			raise Exception("El precio debe ser un numero")
+			raise Exception("El precio debe ser un numero positivo")
 		return precioAux
 
 	def validate_stock(self,stock):
 		try:
 			stockAux = int(stock)
+			if stockAux < 1:
+				raise Exception("El stock debe ser un numero positivo")
 		except Exception as e:
-			raise Exception("El stock debe ser un numero")
+			raise Exception("El stock debe ser un numero positivo")
 		return stockAux
 
 	def validate_nuevo(self,nuevo):
